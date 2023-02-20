@@ -1,7 +1,7 @@
 import { DioAccount } from "./DioAccount"
 
 export class CompanyAccount extends DioAccount {
-  loan: number = 100
+  private loan: number = 100
 
   constructor(name: string, accountNumber: number){
     super(name, accountNumber)
