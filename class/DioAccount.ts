@@ -1,7 +1,9 @@
 export abstract class DioAccount {
-  private name: string
+  private readonly name: string
   private readonly accountNumber: number
-  balance: number = 0
+  private balance: number = 0
+  private depositDone: number = 60
+  private withdrawDone: number = 40 
   private status: boolean = true
 
   constructor(name: string, accountNumber: number){
@@ -9,30 +11,51 @@ export abstract class DioAccount {
     this.accountNumber = accountNumber
   }
 
-  setName = (name: string): void => {
-    this.name = name
-    console.log('Nome alterado com sucesso!')
-  }
+  // setName = (name: string): void => {
+  //   this.name = name
+  //   console.log('Nome alterado com sucesso!')
+  // }
 
   getName = (): string => {
     return this.name
   }
 
-  deposit = (): void => {
+  deposit = (): any => {
     if(this.validateStatus()){
-      console.log('Voce depositou')
+      this.balance += this.depositDone
+      console.log("O seu saldo após o depósito é " + this.balance.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}))
     }
+    else {
+      console.log('Conta inválida! Verfique a conta e tente novamente.')
+    }
+    
   }
 
-  withdraw = (): void => {
-    console.log('Voce sacou')
+  getDeposit = (): number => {
+    return this.depositDone
   }
 
-  getBalance = (): void => {
-    console.log(this.balance)
+  withdraw = (): any => {
+    if(this.validateStatus() && this.withdrawDone <= this.balance){
+      this.balance -= this.withdrawDone
+      console.log("O seu saldo após o saque é " + this.balance.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}))
+    }
+    else {
+      console.log('Conta inválida ou saldo menor. Verfique e tente novamente.')
+    }
+    
   }
 
-  private validateStatus = (): boolean => {
+  getBalance =(): number => {
+    return this.balance
+  }
+
+  setBalance =(balance: number): number => {
+      this.balance = balance
+      return balance
+  }
+
+  validateStatus = (): boolean => {
     if (this.status) {
       return this.status
     }
